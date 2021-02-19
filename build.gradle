@@ -17,6 +17,13 @@ test {
     useJUnitPlatform()
 }
 
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
 
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
@@ -37,5 +44,7 @@ dependencies {
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation("org.springframework.security:spring-security-test") // 권한 관련
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 

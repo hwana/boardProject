@@ -5,6 +5,9 @@ import com.book.springboot.config.auth.dto.SessionUser;
 import com.book.springboot.service.posts.PostsService;
 import com.book.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,19 +23,36 @@ public class IndexController {
     private final HttpSession httpSession;
 
     //메인페이지
-    @GetMapping("/")
-    public String index(Model model, @LoginUser SessionUser user) {
-        model.addAttribute("posts", postsService.findAllDesc());
+    @GetMapping("/list")
+    public String index(Model model,
+                        @LoginUser SessionUser user,
+                        @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, size = 5) Pageable pageable) {
+        model.addAttribute("posts", postsService.findAll(pageable));
+        model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
+        model.addAttribute("next", pageable.next().getPageNumber());
+
         if (user != null) {
-            model.addAttribute("userName", user.getName());
+            model.addAttribute("name", user.getName());
         }
         return "index";
     }
 
     //등록페이지
     @GetMapping("/posts/save")
-    public String postsSave(){
+    public String postsSave(Model model, @LoginUser SessionUser user){
+        if (user != null) {
+            model.addAttribute("name", user.getName());
+        }
         return "posts-save";
+    }
+
+    //상세조회페이지
+    @GetMapping("/posts/view/{id}")
+    public String postsView(@PathVariable Long id, Model model){
+        PostsResponseDto dto = postsService.findById(id);
+        postsService.updateCount(id);
+        model.addAttribute("post", dto);
+        return "posts-view";
     }
 
     //수정페이지
@@ -42,7 +62,4 @@ public class IndexController {
         model.addAttribute("post", dto);
         return "posts-update";
     }
-
-
-
 }
