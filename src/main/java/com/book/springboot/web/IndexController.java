@@ -5,9 +5,6 @@ import com.book.springboot.config.auth.dto.SessionUser;
 import com.book.springboot.service.posts.PostsService;
 import com.book.springboot.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,13 +22,8 @@ public class IndexController {
     //메인페이지
     @GetMapping("/list")
     public String index(Model model,
-                        @LoginUser SessionUser user,
-                        @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, size = 5) Pageable pageable) {
-        model.addAttribute("posts", postsService.findAll(pageable));
-        model.addAttribute("previous", pageable.previousOrFirst().getPageNumber());
-        model.addAttribute("next", pageable.next().getPageNumber());
-
-        if (user != null) {
+                        @LoginUser SessionUser user) {
+         if (user != null) {
             model.addAttribute("name", user.getName());
         }
         return "index";

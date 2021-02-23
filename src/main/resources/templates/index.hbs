@@ -14,39 +14,11 @@
     <br>
     <!-- 목록 출력 영역 -->
     <table class="table table-hover col-md-10 offset-1 my-5">
-        <thead class="thead-strong">
-        <tr>
-            <th scope="col">게시글번호</th>
-            <th scope="col">제목</th>
-            <th scope="col">작성자</th>
-            <th scope="col">조회수</th>
-            <th scope="col">최종수정일</th>
-        </tr>
-        </thead>
-        <tbody id="tbody">
-        {{#posts}}
-            <tr class="table-secondary">
-                <td>{{id}}</td>
-                <td><a href="/posts/view/{{id}}">{{title}}</a></td>
-                <td>{{author}}</td>
-                <td>{{count}}</td>
-                <td>{{modifiedDate}}</td>
-            </tr>
-        {{/posts}}
-        </tbody>
     </table>
+    <!-- 페이징 영역    -->
     <div class="col-md-7 offset-5">
         <div class="inline-block">
             <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="?page={{previous}}">&laquo;</a>
-                </li>
-                <li class="page-item active">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{next}}">&raquo;</a>
-                </li>
             </ul>
         </div>
         <div class="inline-block offset-5">
@@ -54,5 +26,4 @@
         </div>
     </div>
 </div>
-
 {{>layout/footer}}
