@@ -1,5 +1,5 @@
 #!/bin/bash
-REPOSITORY=/home/ec2-user/app/step2
+REPOSITORY=/home/ec2-user/app/step4
 PROJECT_NAME=community
 
 echo "> Build 파일 복사"
