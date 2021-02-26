@@ -17,10 +17,18 @@ test {
     useJUnitPlatform()
 }
 
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
 
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-mustache')
+    implementation('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.2')
 
     // lombok
     implementation('org.projectlombok:lombok')
@@ -37,5 +45,7 @@ dependencies {
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation("org.springframework.security:spring-security-test") // 권한 관련
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 

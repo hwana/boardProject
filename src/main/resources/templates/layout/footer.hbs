@@ -1,0 +1,44 @@
+<script type = "text/template" id="boardList">
+        <thead class="thead-strong">
+        <tr>
+            <th scope="col">게시글번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">조회수</th>
+            <th scope="col">최종수정일</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        \{{#content}}
+        <tr class="table-secondary">
+            <td>\{{id}}</td>
+            <td><a href="/posts/view/\{{id}}">\{{title}}</a></td>
+            <td>\{{author}}</td>
+            <td>\{{count}}</td>
+            <td>\{{modifiedDate}}</td>
+        </tr>
+        \{{/content}}
+        </tbody>
+</script>
+
+
+
+<script type = "text/template" id = "pagination">
+    \{{#for}}
+    <li class="page-item cursor index">
+        <a class="page-link">\{{this}}</a>
+    </li>
+    \{{/for}}
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/js/app/list.js"></script>
+<script src="/js/app/index.js"></script>
+
+
+</body>
+</html>

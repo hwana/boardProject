@@ -7,11 +7,10 @@ import com.book.springboot.web.dto.PostsResponseDto;
 import com.book.springboot.web.dto.PostsSaveRequestDto;
 import com.book.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -41,8 +40,8 @@ public class PostsService {
 
     //전체 조회
     @Transactional(readOnly = true)
-    public List<PostsListResponseDto> findAllDesc(){
-        return postsRepository.findAllDesc().stream().map(PostsListResponseDto::new).collect(Collectors.toList());
+    public Page<PostsListResponseDto> findAll(Pageable pageable){
+        return postsRepository.findAll(pageable).map(PostsListResponseDto::new);
     }
 
     //삭제
@@ -50,6 +49,11 @@ public class PostsService {
     public void delete(Long id){
         Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id = " + id));
         postsRepository.delete(posts);
+    }
+
+    @Transactional
+    public void updateCount(Long id){
+        postsRepository.updateCount(id);
     }
 
 }

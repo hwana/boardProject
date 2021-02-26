@@ -20,19 +20,31 @@ public class IndexController {
     private final HttpSession httpSession;
 
     //메인페이지
-    @GetMapping("/")
-    public String index(Model model, @LoginUser SessionUser user) {
-        model.addAttribute("posts", postsService.findAllDesc());
-        if (user != null) {
-            model.addAttribute("userName", user.getName());
+    @GetMapping("/list")
+    public String index(Model model,
+                        @LoginUser SessionUser user) {
+         if (user != null) {
+            model.addAttribute("name", user.getName());
         }
         return "index";
     }
 
     //등록페이지
     @GetMapping("/posts/save")
-    public String postsSave(){
+    public String postsSave(Model model, @LoginUser SessionUser user){
+        if (user != null) {
+            model.addAttribute("name", user.getName());
+        }
         return "posts-save";
+    }
+
+    //상세조회페이지
+    @GetMapping("/posts/view/{id}")
+    public String postsView(@PathVariable Long id, Model model){
+        PostsResponseDto dto = postsService.findById(id);
+        postsService.updateCount(id);
+        model.addAttribute("post", dto);
+        return "posts-view";
     }
 
     //수정페이지
@@ -42,7 +54,4 @@ public class IndexController {
         model.addAttribute("post", dto);
         return "posts-update";
     }
-
-
-
 }
