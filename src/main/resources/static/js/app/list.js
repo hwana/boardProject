@@ -58,4 +58,10 @@ $(document).on("click", '.index', function(){
     ajax('GET', '/api/posts?page='+index+'&size=5');
  });
 
+//검색 버튼 클릭
+$('#searchBtn').on("click", function(){
+ var keyword = $('#keyword').val();
+ ajax('GET', '/api/posts/' + keyword);
+});
+
 main.init();

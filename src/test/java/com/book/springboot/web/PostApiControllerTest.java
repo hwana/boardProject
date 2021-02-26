@@ -1,10 +1,11 @@
 package com.book.springboot.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.book.springboot.domain.posts.Posts;
 import com.book.springboot.domain.posts.PostsRepository;
+import com.book.springboot.web.dto.PostsResponseDto;
 import com.book.springboot.web.dto.PostsSaveRequestDto;
 import com.book.springboot.web.dto.PostsUpdateRequestDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -118,5 +121,32 @@ public class PostApiControllerTest {
         List<Posts> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
+    }
+    @Test
+    @WithMockUser(roles="USER")
+    public void Search_동작여부() {
+        // Given
+
+
+        String title = "게시글1";
+        String content = "콘텐츠1";
+        postsRepository.save(Posts.builder()
+                .title(title)
+                .content(content)
+                .author("kim")
+                .build());
+        postsRepository.save(Posts.builder()
+                .title(content)
+                .content(title)
+                .author("park")
+                .build());
+        // when
+        String toFindKeyword ="콘텐츠1";
+        Page<PostsResponseDto> postsList = postsRepository
+                .findByTitleContainingIgnoreCase(toFindKeyword, PageRequest.of(0,5)).map(PostsResponseDto::new);
+
+        // then
+        System.out.println(postsList);
+        assertThat(postsList.getContent().get(0).getContent()).isEqualTo(toFindKeyword);
     }
 }
