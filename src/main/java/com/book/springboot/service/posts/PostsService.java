@@ -51,9 +51,16 @@ public class PostsService {
         postsRepository.delete(posts);
     }
 
+    //조회수 증가
     @Transactional
     public void updateCount(Long id){
         postsRepository.updateCount(id);
+    }
+
+    //검색기능
+    @Transactional
+    public Page<PostsListResponseDto> findByContent(String keyword, Pageable pageable){
+        return postsRepository.findByTitleContainingIgnoreCase(keyword, pageable).map(PostsListResponseDto::new);
     }
 
 }

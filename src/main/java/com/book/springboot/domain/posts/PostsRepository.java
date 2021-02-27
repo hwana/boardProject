@@ -13,4 +13,6 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
     @Modifying
     @Query("UPDATE Posts p SET p.count = p.count + 1 WHERE id = ?1")
     int updateCount(Long id);
+
+    Page<Posts> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 }

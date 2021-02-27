@@ -4,3 +4,7 @@
 .cursor {
     cursor : pointer;
 }
+
+#keyword{
+    width : 20%;
+}

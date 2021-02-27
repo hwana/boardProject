@@ -12,17 +12,24 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @RestController
 public class PostsApiController {
 
     private final PostsService postsService;
 
-    //메인페이지
-    @GetMapping("/api/posts")
+    //메인페이지(검색기능추가)
+    @GetMapping(value = {"/api/posts", "/api/posts/{keyword}"})
     public Page index(Model model,
-                     @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, size = 5) Pageable pageable) {
-        return postsService.findAll(pageable);
+                     @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, size = 5) Pageable pageable,
+                     @PathVariable(required = false) Optional<String> keyword) {
+        if(keyword.isPresent()){
+            return postsService.findByContent(keyword.get(),pageable);
+        }else{
+            return postsService.findAll(pageable);
+        }
     }
 
     //등록
