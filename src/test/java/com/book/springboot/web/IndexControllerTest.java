@@ -19,7 +19,7 @@ public class IndexControllerTest {
     @Test
     public void 메인페이지_로딩(){
         //when
-        String body = this.testRestTemplate.getForObject("/list", String.class);
+        String body = this.testRestTemplate.getForObject("/", String.class);
 
         //then
         assertThat(body).contains("테스트페이지");

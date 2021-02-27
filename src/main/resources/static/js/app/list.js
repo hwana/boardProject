@@ -2,7 +2,6 @@ function ajax(aType, aUrl){
     $.ajax({
        type: aType,
        url: aUrl,
-       dataType: 'json',
        contentType: 'application/json; charset=utf-8'
     }).done(function(obj) {
         make.makeList(obj);
@@ -24,7 +23,6 @@ var make = {
         var bindTemplate = Handlebars.compile(source);
         var html = bindTemplate(obj);
         $(".table").html(html);
-        console.log(obj);
     },
     makePage : function(obj){
         var pageSource = $("#pagination").html();

@@ -20,7 +20,7 @@ public class IndexController {
     private final HttpSession httpSession;
 
     //메인페이지
-    @GetMapping("/list")
+    @GetMapping("/")
     public String index(Model model,
                         @LoginUser SessionUser user) {
          if (user != null) {
