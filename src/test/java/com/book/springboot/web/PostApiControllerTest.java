@@ -141,12 +141,12 @@ public class PostApiControllerTest {
                 .author("park")
                 .build());
         // when
-        String toFindKeyword ="콘텐츠1";
+        String toFindKeyword ="게시글1";
         Page<PostsResponseDto> postsList = postsRepository
                 .findByTitleContainingIgnoreCase(toFindKeyword, PageRequest.of(0,5)).map(PostsResponseDto::new);
 
         // then
         System.out.println(postsList);
-        assertThat(postsList.getContent().get(0).getContent()).isEqualTo(toFindKeyword);
+        assertThat(postsList.getContent().get(0).getTitle()).isEqualTo(toFindKeyword);
     }
 }
